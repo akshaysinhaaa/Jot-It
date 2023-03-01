@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".MainActivity">
+
+
+    <android.widget.Button
+        android:id="@+id/online_button"
+        android:layout_width="185dp"
+        android:layout_height="99dp"
+        android:layout_marginTop="552dp"
+        android:background="@drawable/online_button"
+        android:minHeight="100dp"
+        android:padding="10dp"
+        android:text="online \n subjects"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/coding_button"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <android.widget.Button
+        android:id="@+id/maths_button"
+        android:layout_width="185dp"
+        android:layout_height="99dp"
+        android:layout_marginTop="432dp"
+        android:background="@drawable/maths_button"
+        android:minHeight="100dp"
+        android:padding="10dp"
+        android:text="Maths"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/phy_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <android.widget.Button
+        android:id="@+id/digital_button"
+        android:layout_width="185dp"
+        android:layout_height="99dp"
+        android:layout_marginTop="672dp"
+        android:background="@drawable/lab_button"
+        android:minHeight="100dp"
+        android:padding="10dp"
+        android:text="Digital \nDesign"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/phy_button"
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <android.widget.Button
+        android:id="@+id/phy_button"
+        android:layout_width="185dp"
+        android:layout_height="99dp"
+        android:layout_marginTop="432dp"
+        android:background="@drawable/phy_button"
+        android:minHeight="100dp"
+        android:padding="10dp"
+        android:text="Physics"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/maths_button"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <android.widget.Button
+        android:id="@+id/formula_button"
+        android:layout_width="185dp"
+        android:layout_height="99dp"
+        android:layout_marginTop="672dp"
+        android:background="@drawable/formula_button"
+        android:minHeight="100dp"
+        android:padding="10dp"
+        android:text="Formula \n sheet"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.472"
+        app:layout_constraintStart_toEndOf="@+id/maths_button"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <android.widget.Button
+        android:id="@+id/coding_button"
+        android:layout_width="185dp"
+        android:layout_height="99dp"
+        android:layout_marginTop="552dp"
+        android:background="@drawable/coding_button"
+        android:minHeight="100dp"
+        android:padding="10dp"
+        android:text="Coding"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/online_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="411dp"
+        android:layout_height="387dp"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/hero"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="3dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
