@@ -61,7 +61,7 @@
             tools:text="Click for SignUp" />
 
         <Button
-            android:id="@+id/btn_signIn"
+            android:id="@+id/btnSignIn"
             android:layout_width="178dp"
             android:layout_height="65dp"
             android:backgroundTint="@android:color/holo_green_dark"
