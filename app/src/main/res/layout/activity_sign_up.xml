@@ -33,8 +33,7 @@
             android:ems="10"
             android:hint="Username"
             android:inputType="textPersonName"
-            android:padding="15dp"
-            android:text="Name" />
+            android:padding="15dp" />
 
         <EditText
             android:id="@+id/etEmail"

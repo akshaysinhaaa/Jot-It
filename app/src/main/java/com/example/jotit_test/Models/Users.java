@@ -7,6 +7,7 @@ public class Users {
         this.userName = userName;
         this.mail = mail;
         this.password = password;
+        this.userid = userid;
     }
 
     public Users(){}
