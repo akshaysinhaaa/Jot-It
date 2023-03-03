@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:paddingRight="16dp"
-            android:text="TextView"
+            android:text="Click for SignUp"
             android:textColor="@color/white"
             tools:text="Click for SignUp" />
 
