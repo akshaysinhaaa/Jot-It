@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
 
     Button Maths, Physics, Coding, Online, DLD;
+    Button logout_button;
 
 
     @Override
@@ -39,6 +40,23 @@ public class MainActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_main);
+
+
+        //Logout button
+
+        auth = FirebaseAuth.getInstance();
+        logout_button = findViewById(R.id.logout_button);
+
+        logout_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                auth.signOut();
+                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                startActivity(intent);
+                finish();
+                Toast.makeText(MainActivity.this, "Logout Successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Maths = findViewById(R.id.maths_button);
         Physics = findViewById(R.id.phy_button);
@@ -93,18 +111,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case R.id.settings:
-                Toast.makeText(this, "Setting Clicked", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.logout:
-                auth.signOut();
-                break;
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//
+//        switch (item.getItemId()) {
+//
+//            case R.id.settings:
+//                Toast.makeText(this, "Setting Clicked", Toast.LENGTH_SHORT).show();
+//                break;
+//            case R.id.logout:
+//                auth.signOut();
+//                break;
+//        }
+//        return true;
+//    }
 }

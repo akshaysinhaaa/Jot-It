@@ -12,7 +12,7 @@
         android:id="@+id/online_button"
         android:layout_width="185dp"
         android:layout_height="99dp"
-        android:layout_marginTop="552dp"
+        android:layout_marginTop="524dp"
         android:background="@drawable/online_button"
         android:minHeight="100dp"
         android:padding="10dp"
@@ -29,7 +29,7 @@
         android:id="@+id/maths_button"
         android:layout_width="185dp"
         android:layout_height="99dp"
-        android:layout_marginTop="432dp"
+        android:layout_marginTop="392dp"
         android:background="@drawable/maths_button"
         android:minHeight="100dp"
         android:padding="10dp"
@@ -46,7 +46,7 @@
         android:id="@+id/digital_button"
         android:layout_width="185dp"
         android:layout_height="99dp"
-        android:layout_marginTop="672dp"
+        android:layout_marginTop="652dp"
         android:background="@drawable/lab_button"
         android:minHeight="100dp"
         android:padding="10dp"
@@ -54,7 +54,7 @@
         android:textColor="#ffffff"
         android:textSize="20dp"
         app:layout_constraintEnd_toStartOf="@+id/phy_button"
-        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
@@ -63,7 +63,7 @@
         android:id="@+id/phy_button"
         android:layout_width="185dp"
         android:layout_height="99dp"
-        android:layout_marginTop="432dp"
+        android:layout_marginTop="392dp"
         android:background="@drawable/phy_button"
         android:minHeight="100dp"
         android:padding="10dp"
@@ -80,7 +80,7 @@
         android:id="@+id/formula_button"
         android:layout_width="185dp"
         android:layout_height="99dp"
-        android:layout_marginTop="672dp"
+        android:layout_marginTop="652dp"
         android:background="@drawable/formula_button"
         android:minHeight="100dp"
         android:padding="10dp"
@@ -88,7 +88,7 @@
         android:textColor="#ffffff"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toEndOf="@+id/maths_button"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
@@ -97,7 +97,7 @@
         android:id="@+id/coding_button"
         android:layout_width="185dp"
         android:layout_height="99dp"
-        android:layout_marginTop="552dp"
+        android:layout_marginTop="524dp"
         android:background="@drawable/coding_button"
         android:minHeight="100dp"
         android:padding="10dp"
@@ -112,13 +112,45 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="411dp"
-        android:layout_height="387dp"
+        android:layout_width="424dp"
+        android:layout_height="355dp"
         android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/hero"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="3dp" />
+        tools:layout_editor_absoluteY="-1dp" />
+
+
+    <Button
+        android:id="@+id/upload_button"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
+        android:background="@drawable/upload_button"
+        android:text="upload notes"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.963" />
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
+        android:background="@drawable/upload_button"
+        android:text="logout"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.811"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.963" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
