@@ -176,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
                 gotoUrl("https://drive.google.com/drive/folders/1JPfxvLMTBfnGfQj6f770CVrXuAXijzAU?usp=sharing");
             }
         });
+        
     }
 
     private void gotoUrl(String s) {

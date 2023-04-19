@@ -154,13 +154,15 @@
         app:layout_constraintVertical_bias="0.963" />
 
     <ImageView
-        android:id="@+id/btnMenu"
-        android:layout_width="64dp"
-        android:layout_height="71dp"
+        android:id="@+id/imgMenu"
+        android:layout_width="74dp"
+        android:layout_height="61dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/menu"
-        tools:layout_editor_absoluteX="7dp"
         tools:layout_editor_absoluteY="16dp"
-        tools:ignore="InvalidId" />
+        tools:ignore="InvalidId,MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
