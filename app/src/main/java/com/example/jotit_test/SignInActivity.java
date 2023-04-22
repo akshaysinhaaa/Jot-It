@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -22,6 +23,8 @@ public class SignInActivity extends AppCompatActivity {
     ActivitySignInBinding binding;
     ProgressDialog progressDialog;
     FirebaseAuth auth;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +41,10 @@ public class SignInActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(SignInActivity.this);
         progressDialog.setTitle("Logging in");
         progressDialog.setMessage("Logging in your account");
+
+
+
+
         binding.btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,11 +55,10 @@ public class SignInActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressDialog.dismiss();
                                 if (task.isSuccessful()) {
-                                    Intent intent = new Intent(SignInActivity.this , MainActivity.class);
+                                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                                     startActivity(intent);
-                                }
-                                else {
-                                    Toast.makeText(SignInActivity.this , task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(SignInActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -61,12 +67,12 @@ public class SignInActivity extends AppCompatActivity {
         binding.tvClickSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SignInActivity.this , SignUpActivity.class);
+                Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
                 startActivity(intent);
             }
         });
-        if (auth.getCurrentUser()!=null) {
-            Intent intent = new Intent(SignInActivity.this , MainActivity.class);
+        if (auth.getCurrentUser() != null) {
+            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
         }
 

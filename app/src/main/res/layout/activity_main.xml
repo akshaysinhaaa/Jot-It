@@ -110,17 +110,18 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="424dp"
         android:layout_height="355dp"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/hero"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="-1dp" />
-
+        tools:layout_editor_absoluteY="0dp" />
 
     <Button
         android:id="@+id/upload_button"
@@ -151,6 +152,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView"
         app:layout_constraintVertical_bias="0.963" />
+
+    <ImageView
+        android:id="@+id/imgMenu"
+        android:layout_width="74dp"
+        android:layout_height="61dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/menu"
+        tools:layout_editor_absoluteY="16dp"
+        tools:ignore="InvalidId,MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

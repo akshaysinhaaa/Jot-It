@@ -3,9 +3,11 @@ package com.example.jotit_test;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -55,45 +57,77 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CODE_PICK_FILE);
 
     }
-    private void uploadFile(Uri fileUri) {
-        // Get the file name from the file URI
-        String fileName = getFileName(fileUri);
+//    private void uploadFile(Uri fileUri) {
+//        // Get the file name from the file URI
+//        String fileName = getFileName(fileUri);
+//
+//        // Create a storage reference to the file location
+//        StorageReference fileRef = storageRef.child("uploads/" + fileName);
+//
+//        // Upload the file to Firebase Storage
+//        UploadTask uploadTask = fileRef.putFile(fileUri);
+//
+//        // Get the download URL of the uploaded file and handle the upload result
+//        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+//            @Override
+//            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+//                if (!task.isSuccessful()) {
+//                    throw Objects.requireNonNull(task.getException());
+//                }
+//
+//                return fileRef.getDownloadUrl();
+//            }
+//        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Uri> task) {
+//                if (task.isSuccessful()) {
+//                    // Get the download URL of the uploaded file
+//                    Uri downloadUri = task.getResult();
+//
+//                    // Handle successful upload
+//                    Toast.makeText(MainActivity.this, "File uploaded successfully", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    // Handle unsuccessful upload
+//                    Toast.makeText(MainActivity.this, "Error uploading file: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//    }
+private void uploadFile(Uri fileUri) {
+    String fileName = getFileName(fileUri);
 
-        // Create a storage reference to the file location
-        StorageReference fileRef = storageRef.child("uploads/" + fileName);
+    StorageReference fileRef = storageRef.child("uploads/" + fileName);
+    UploadTask uploadTask = fileRef.putFile(fileUri);
 
-        // Upload the file to Firebase Storage
-        UploadTask uploadTask = fileRef.putFile(fileUri);
-
-        // Get the download URL of the uploaded file and handle the upload result
-        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    throw Objects.requireNonNull(task.getException());
-                }
-
-                return fileRef.getDownloadUrl();
+    uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+        @Override
+        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+            if (!task.isSuccessful()) {
+                throw Objects.requireNonNull(task.getException());
             }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    // Get the download URL of the uploaded file
-                    Uri downloadUri = task.getResult();
 
-                    // Handle successful upload
-                    Toast.makeText(MainActivity.this, "File uploaded successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Handle unsuccessful upload
-                    Toast.makeText(MainActivity.this, "Error uploading file: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            return fileRef.getDownloadUrl();
+        }
+    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+        @Override
+        public void onComplete(@NonNull Task<Uri> task) {
+            if (task.isSuccessful()) {
+                Uri downloadUri = task.getResult();
+                // Handle successful upload
+                Toast.makeText(MainActivity.this, "File uploaded successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                // Handle unsuccessful upload
+                Toast.makeText(MainActivity.this, "Error uploading file: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
             }
-        });
-    }
+        }
+    });
+}
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         auth = FirebaseAuth.getInstance();
@@ -112,23 +146,20 @@ public class MainActivity extends AppCompatActivity {
         logout_button = findViewById(R.id.logout_button);
         upload_button = findViewById(R.id.upload_button);
 
-//        binding.uploadButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                 sele
-//            }
-//        });
         upload_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
-                    Log.d(TAG,"vrnonclickif");
-                }
-                else {
-                    launchFileChooser();
-                }
+            public void onClick(View v) {
+                checkStoragePermission();
+//                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+//                    Log.d(TAG,"vrnonclickif");
+//                }
+//                else {
+//                    launchFileChooser();
+//                    Log.d(TAG,"vronfileuser");
+//                }
             }
+
 
         });
 
@@ -182,6 +213,36 @@ public class MainActivity extends AppCompatActivity {
                 gotoUrl("https://drive.google.com/drive/folders/1JPfxvLMTBfnGfQj6f770CVrXuAXijzAU?usp=sharing");
             }
         });
+        
+    }
+    private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION = 1;
+    private void checkStoragePermission() {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            Log.d(TAG,"line 218");
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                // Show an explanation to the user
+                Log.d(TAG,"line 221");
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("This app needs to access your external storage to upload files.");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Request the permission again
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
+                    }
+                });
+                builder.setNegativeButton("Cancel", null);
+                builder.show();
+            } else {
+                Log.d(TAG,"line 234");
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
+            }
+        } else {
+            // Permission is already granted, launch file chooser
+            Log.d(TAG,"infilechoser");
+            launchFileChooser();
+        }
     }
 
     private void gotoUrl(String s) {
