@@ -2,6 +2,8 @@ package com.example.jotit_test;
 
 import static android.content.ContentValues.TAG;
 
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,8 +38,10 @@ import android.database.Cursor;
 import android.provider.OpenableColumns;
 import com.google.android.gms.tasks.OnCompleteListener;
 import java.util.*;
+import androidx.fragment.app.Fragment;
 
 public class MainActivity extends AppCompatActivity {
+    private int  STORAGE_PERMISSION_CODE = 1;
     private static final int PERMISSION_REQUEST_CODE = 200;
     private static final int REQUEST_CODE_PICK_FILE = 1;
     private Uri selectedFileUri;
@@ -49,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
     Button Maths, Physics, Coding, Online, DLD;
     Button logout_button;
     Button upload_button;
+    private int requestCode;
+    private String[] permissions;
+    private int[] grantResults;
 
     private void launchFileChooser() {
         Log.d(TAG,"running log filechooser");
@@ -146,6 +153,8 @@ private void uploadFile(Uri fileUri) {
         logout_button = findViewById(R.id.logout_button);
         upload_button = findViewById(R.id.upload_button);
 
+
+
         upload_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,32 +227,52 @@ private void uploadFile(Uri fileUri) {
     private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION = 1;
     private void checkStoragePermission() {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-            Log.d(TAG,"line 218");
-            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                // Show an explanation to the user
-                Log.d(TAG,"line 221");
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setMessage("This app needs to access your external storage to upload files.");
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Request the permission again
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
-                    }
-                });
-                builder.setNegativeButton("Cancel", null);
-                builder.show();
-            } else {
-                Log.d(TAG,"line 234");
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
-            }
+           requestStoragePermission();
+
         } else {
             // Permission is already granted, launch file chooser
             Log.d(TAG,"infilechoser");
             launchFileChooser();
         }
     }
+    private void requestStoragePermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Permission needed")
+                    .setMessage("This permission is needed to access the notes")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .create().show();
+
+
+        }
+        else {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
 
     private void gotoUrl(String s) {
         Uri uri = Uri.parse(s);
@@ -280,15 +309,6 @@ private void uploadFile(Uri fileUri) {
         }
         return result;
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == PERMISSION_REQUEST_CODE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            launchFileChooser();
-        }
-    }
-//    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        MenuInflater inflater = getMenuInflater();
 //        inflater.inflate(R.menu.menu , menu);
