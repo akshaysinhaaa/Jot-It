@@ -112,9 +112,15 @@ public class MainActivity extends AppCompatActivity {
         logout_button = findViewById(R.id.logout_button);
         upload_button = findViewById(R.id.upload_button);
 
+//        binding.uploadButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                 sele
+//            }
+//        });
         upload_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
                     Log.d(TAG,"vrnonclickif");
