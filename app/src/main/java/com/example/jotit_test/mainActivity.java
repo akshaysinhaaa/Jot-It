@@ -12,11 +12,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
@@ -31,13 +27,13 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Continuation;
-import android.provider.MediaStore;
+
 import android.database.Cursor;
 import android.provider.OpenableColumns;
 import com.google.android.gms.tasks.OnCompleteListener;
 import java.util.*;
 
-public class MainActivity extends AppCompatActivity {
+public class mainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 200;
     private static final int REQUEST_CODE_PICK_FILE = 1;
     private Uri selectedFileUri;
@@ -57,42 +53,6 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CODE_PICK_FILE);
 
     }
-//    private void uploadFile(Uri fileUri) {
-//        // Get the file name from the file URI
-//        String fileName = getFileName(fileUri);
-//
-//        // Create a storage reference to the file location
-//        StorageReference fileRef = storageRef.child("uploads/" + fileName);
-//
-//        // Upload the file to Firebase Storage
-//        UploadTask uploadTask = fileRef.putFile(fileUri);
-//
-//        // Get the download URL of the uploaded file and handle the upload result
-//        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-//            @Override
-//            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-//                if (!task.isSuccessful()) {
-//                    throw Objects.requireNonNull(task.getException());
-//                }
-//
-//                return fileRef.getDownloadUrl();
-//            }
-//        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Uri> task) {
-//                if (task.isSuccessful()) {
-//                    // Get the download URL of the uploaded file
-//                    Uri downloadUri = task.getResult();
-//
-//                    // Handle successful upload
-//                    Toast.makeText(MainActivity.this, "File uploaded successfully", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    // Handle unsuccessful upload
-//                    Toast.makeText(MainActivity.this, "Error uploading file: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//    }
 private void uploadFile(Uri fileUri) {
     String fileName = getFileName(fileUri);
 
@@ -114,10 +74,10 @@ private void uploadFile(Uri fileUri) {
             if (task.isSuccessful()) {
                 Uri downloadUri = task.getResult();
                 // Handle successful upload
-                Toast.makeText(MainActivity.this, "File uploaded successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mainActivity.this, "File uploaded successfully", Toast.LENGTH_SHORT).show();
             } else {
                 // Handle unsuccessful upload
-                Toast.makeText(MainActivity.this, "Error uploading file: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mainActivity.this, "Error uploading file: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     });
@@ -125,11 +85,12 @@ private void uploadFile(Uri fileUri) {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+
         auth = FirebaseAuth.getInstance();
 
         // To hide the App Bar
@@ -150,14 +111,6 @@ private void uploadFile(Uri fileUri) {
             @Override
             public void onClick(View v) {
                 checkStoragePermission();
-//                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
-//                    Log.d(TAG,"vrnonclickif");
-//                }
-//                else {
-//                    launchFileChooser();
-//                    Log.d(TAG,"vronfileuser");
-//                }
             }
 
 
@@ -167,10 +120,10 @@ private void uploadFile(Uri fileUri) {
             @Override
             public void onClick(View view) {
                 auth.signOut();
-                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                Intent intent = new Intent(mainActivity.this, SignInActivity.class);
                 startActivity(intent);
                 finish();
-                Toast.makeText(MainActivity.this, "Logout Successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mainActivity.this, "Logout Successfully", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -217,26 +170,26 @@ private void uploadFile(Uri fileUri) {
     }
     private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION = 1;
     private void checkStoragePermission() {
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(mainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
             Log.d(TAG,"line 218");
-            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(mainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 // Show an explanation to the user
                 Log.d(TAG,"line 221");
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity.this);
                 builder.setMessage("This app needs to access your external storage to upload files.");
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Request the permission again
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
+                        ActivityCompat.requestPermissions(mainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
                     }
                 });
                 builder.setNegativeButton("Cancel", null);
                 builder.show();
             } else {
                 Log.d(TAG,"line 234");
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
+                ActivityCompat.requestPermissions(mainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSION);
             }
         } else {
             // Permission is already granted, launch file chooser
@@ -288,25 +241,4 @@ private void uploadFile(Uri fileUri) {
             launchFileChooser();
         }
     }
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu , menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//
-//        switch (item.getItemId()) {
-//
-//            case R.id.settings:
-//                Toast.makeText(this, "Setting Clicked", Toast.LENGTH_SHORT).show();
-//                break;
-//            case R.id.logout:
-//                auth.signOut();
-//                break;
-//        }
-//        return true;
-//    }
 }
